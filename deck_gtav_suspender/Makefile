@@ -2,7 +2,7 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror -Wpedantic `pkg-config --cflags gtk4`
 LFLAGS = -lm `pkg-config --libs gtk4`
 
-PROG = myWindow
+PROG = GTA_Suspender
 
 # Directories (must exist)
 SRCDIR = src
