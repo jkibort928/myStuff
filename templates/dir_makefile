@@ -1,0 +1,28 @@
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -Wpedantic
+LFLAGS = -lm -pthread -lssl -lcrypto
+
+PROG = myProgram
+
+# Directories (must exist)
+SRCDIR = src
+OBJDIR = bin
+EXEDIR = bin
+
+# All binaries are defined as EXEDIR/Name
+all: $(EXEDIR)/$(PROG)
+
+$(EXEDIR)/myproxy: $(OBJDIR)/$(PROG).o
+	$(CC) -o $@ $^ $(LFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(EXEDIR)/$(PROG) $(OBJDIR)/*.o
+
+format:
+	clang-format -i -style=file $(SRCDIR)/*[ch]
+
+scan-build: clean
+	scan-build make

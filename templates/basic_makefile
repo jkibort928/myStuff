@@ -1,0 +1,18 @@
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -Wpedantic
+
+PROG = appName
+
+all: $(PROG)
+
+$(PROG): $(PROG).o
+	$(CC) -o $(PROG) $(PROG).o
+
+$(PROG).o: $(PROG).c
+	$(CC) $(CFLAGS) -c $(PROG).c
+
+clean:
+	rm -f $(PROG) $(PROG).o
+
+scan-build: clean
+	scan-build make

@@ -1,0 +1,38 @@
+MAIN           = Prog
+ADT            = Lib
+SOURCE         = $(MAIN).c
+OBJECT         = $(MAIN).o
+ADT_TEST       = $(ADT)Test
+ADT_SOURCE     = $(ADT).c
+ADT_OBJECT     = $(ADT).o
+ADT_HEADER     = $(ADT).h
+CC             = clang
+CFLAGS         = -Wall -Wextra -Werror -Wpedantic
+COMPILE        = $(CC) $(CFLAGS) -c
+LINK           = $(CC) $(CFLAGS) -o
+REMOVE         = rm -f
+MEMCHECK       = valgrind --leak-check=full
+
+$(MAIN): $(OBJECT) $(ADT_OBJECT)
+	$(LINK) $(MAIN) $(OBJECT) $(ADT_OBJECT)
+
+$(ADT_TEST): $(ADT_TEST).o $(ADT_OBJECT)
+	$(LINK) $(ADT_TEST) $(ADT_TEST).o $(ADT_OBJECT)
+
+$(OBJECT): $(SOURCE) $(ADT_HEADER)
+	$(COMPILE) $(SOURCE)
+
+$(ADT_TEST).o: $(ADT_TEST).c $(ADT_HEADER)
+	$(COMPILE) $(ADT_TEST).c
+
+$(ADT_OBJECT): $(ADT_SOURCE) $(ADT_HEADER)
+	$(COMPILE) $(ADT_SOURCE)
+
+clean:
+	$(REMOVE) $(MAIN) $(ADT_TEST) $(OBJECT) $(ADT_TEST).o $(ADT_OBJECT)
+
+$(MAIN)Check: $(MAIN)
+	$(MEMCHECK) $(MAIN)
+
+$(ADT)Check: $(ADT_TEST)
+	$(MEMCHECK) $(ADT_TEST)
