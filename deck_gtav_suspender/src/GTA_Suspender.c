@@ -23,8 +23,8 @@ void disableSave(GtkButton *button, GtkWidget *thing) {
 	ranSudo = 1;
 
 	system("sudo -A iptables -F");
-	system("sudo -A iptables -I INPUT -s 8.8.8.8 -j DROP");
-	system("sudo -A iptables -I OUTPUT -s 8.8.8.8 -j DROP");
+	system("sudo -A iptables -I INPUT -s 192.81.241.171 -j DROP");
+	system("sudo -A iptables -I OUTPUT -s 192.81.241.171 -j DROP");
 }
 
 void enableSave(GtkButton *button, GtkWidget *thing) {
